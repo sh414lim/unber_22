@@ -19,4 +19,8 @@ export class CreateShopDto {
   @Field((type) => String)
   @IsString()
   ownersName: string;
+
+  @Field((type) => String)
+  @IsString()
+  categoryName: string;
 }

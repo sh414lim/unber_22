@@ -3,16 +3,18 @@
 # ------------------------------------------------------
 
 type Shop {
+  id: Float!
   name: String!
   isVegan: Boolean!
   address: String!
-  owner: String!
+  ownersName: String!
+  categoryName: String!
 }
 
 type Query {
-  guest(veganOnly: Boolean!): [Shop!]!
+  shop: [Shop!]!
 }
 
 type Mutation {
-  createShop(name: String!, isVegan: Boolean!, address: String!, ownersName: String!): Boolean!
+  createShop(name: String!, isVegan: Boolean!, address: String!, ownersName: String!, categoryName: String!): Boolean!
 }
