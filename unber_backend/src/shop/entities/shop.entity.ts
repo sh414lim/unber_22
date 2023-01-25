@@ -3,20 +3,16 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 @ObjectType()
-export class Guest {
-  @PrimaryGeneratedColumn()
-  @Field((is) => Int)
-  number: number;
+export class Shop {
+  @Field((type) => String)
+  name: string;
 
-  // @Column()
-  @Field((type) => Boolean, { nullable: true })
-  writer: boolean;
+  @Field((type) => Boolean)
+  isVegan: boolean;
 
-  // @Column()
-  @Field(() => String)
-  title: string;
+  @Field((type) => String)
+  address: string;
 
-  // @Column()
-  @Field(() => String)
-  contents: string;
+  @Field((type) => String)
+  owner: string;
 }
