@@ -11,6 +11,11 @@ type Shop {
   categoryName: String!
 }
 
+type CreateAccountOutput {
+  error: String
+  ok: Boolean!
+}
+
 type Query {
   shop: [Shop!]!
   hi: Boolean!
@@ -19,6 +24,7 @@ type Query {
 type Mutation {
   createShop(input: CreateShopDto!): Boolean!
   updatesShop(input: UpdateShopDto!): Boolean!
+  createAccount(input: CreateAccountInput!): CreateAccountOutput!
 }
 
 input CreateShopDto {
@@ -40,4 +46,16 @@ input UpdateShopInputType {
   address: String
   ownersName: String
   categoryName: String
+}
+
+input CreateAccountInput {
+  email: String!
+  password: String!
+  role: UserRole!
+}
+
+enum UserRole {
+  Client
+  Owner
+  Delivery
 }
