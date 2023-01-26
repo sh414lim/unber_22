@@ -12,6 +12,7 @@ import { Shop } from './shop/entities/shop.entity';
 import { UsersModule } from './users/users.module';
 import { CommonModule } from './common/common.module';
 import { User } from './users/entitis/user.entity';
+import { JwtModule } from './jwt/jwt.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { User } from './users/entitis/user.entity';
         DB_USERNAME: Joi.string().required(),
         DB_PASSWORD: Joi.string().required(),
         DB_NAME: Joi.string().required(),
+        SECRET_KEY: Joi.string().required(),
       }),
     }),
     ShopModule,
@@ -46,6 +48,7 @@ import { User } from './users/entitis/user.entity';
     }),
     UsersModule,
     CommonModule,
+    JwtModule.forRoot(),
   ],
   controllers: [AppController],
   providers: [AppService],

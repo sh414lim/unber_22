@@ -4,12 +4,19 @@ import { Repository } from 'typeorm';
 import { CreateAccountInput } from './dtos/create-account.dto';
 import { LoginInput } from './dtos/login.dto';
 import { User } from './entitis/user.entity';
+import * as jwt from 'jsonwebtoken';
+import { ConfigService } from '@nestjs/config';
+import { JwtService } from '../jwt/jwt.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User) private readonly users: Repository<User>,
-  ) {}
+    private readonly config: ConfigService,
+    private readonly jwtService: JwtService,
+  ) {
+    console.log(jwtService.hello());
+  }
 
   async createAccount({
     email,
@@ -56,9 +63,13 @@ export class UsersService {
           error: '비밀번호가 맞지 않습니다 다시 확인부탁드립니다',
         };
       }
+      const token = jwt.sign(
+        { id: user.id, password: '123456' },
+        this.config.get('SECRET_KEY'),
+      );
       return {
         ok: true,
-        token: 'succcess',
+        token,
       };
     } catch (error) {
       console.error(error);
