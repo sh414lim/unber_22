@@ -9,6 +9,9 @@ import { join } from 'path';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { Shop } from './shop/entities/shop.entity';
+import { UsersModule } from './users/users.module';
+import { CommonModule } from './common/common.module';
+import { User } from './users/entitis/user.entity';
 
 @Module({
   imports: [
@@ -25,7 +28,7 @@ import { Shop } from './shop/entities/shop.entity';
         DB_NAME: Joi.string().required(),
       }),
     }),
-    ShopModule,
+    // ShopModule,
     GraphQLModule.forRoot({
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       driver: ApolloDriver,
@@ -39,8 +42,10 @@ import { Shop } from './shop/entities/shop.entity';
       database: process.env.DB_NAME,
       synchronize: true, // 현재상태로 마이그레이션
       logging: true,
-      entities: [Shop],
+      entities: [User],
     }),
+    UsersModule,
+    CommonModule,
   ],
   controllers: [AppController],
   providers: [AppService],
