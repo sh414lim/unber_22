@@ -9,6 +9,7 @@ import { CoreEntity } from 'src/common/entities/core.entity';
 import { BeforeInsert, Column, Entity } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { InternalServerErrorException } from '@nestjs/common';
+import { IsEnum, IsString } from 'class-validator';
 
 enum UserRole {
   Client,
@@ -24,6 +25,7 @@ registerEnumType(UserRole, { name: 'UserRole' });
 export class User extends CoreEntity {
   @Column()
   @Field((type) => String)
+  @IsString()
   email: string;
 
   @Column()
@@ -32,6 +34,7 @@ export class User extends CoreEntity {
 
   @Column({ type: 'enum', enum: UserRole })
   @Field((type) => UserRole)
+  @IsEnum(UserRole)
   role: UserRole;
 
   @BeforeInsert() // db 에 저장전 로직
@@ -41,6 +44,15 @@ export class User extends CoreEntity {
     } catch (e) {
       console.log(e);
       throw new InternalServerErrorException();
+    }
+  }
+
+  async checkPassword(aPassword: string): Promise<boolean> {
+    try {
+      const ok = await bcrypt.compare(aPassword, this.password);
+      return ok;
+    } catch (error) {
+      console.error(error);
     }
   }
 }
