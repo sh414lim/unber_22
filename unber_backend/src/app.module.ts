@@ -28,7 +28,7 @@ import { User } from './users/entitis/user.entity';
         DB_NAME: Joi.string().required(),
       }),
     }),
-    // ShopModule,
+    ShopModule,
     GraphQLModule.forRoot({
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       driver: ApolloDriver,
