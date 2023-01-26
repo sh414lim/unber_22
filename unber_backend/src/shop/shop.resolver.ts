@@ -1,5 +1,6 @@
 import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
 import { CreateShopDto } from './dtos/create-shop.dto';
+import { UpdateShopDto } from './dtos/update-shop.dto';
 import { Shop } from './entities/shop.entity';
 import { ShopService } from './shop.service';
 
@@ -18,6 +19,17 @@ export class ShopResolver {
     console.log(createShopInputDto);
     try {
       await this.ShopService.createShop(createShopInputDto);
+      return true;
+    } catch (e) {
+      console.log(e);
+      return false;
+    }
+  }
+
+  @Mutation((returns) => Boolean)
+  async updatesShop(@Args('input') updateShopDto: UpdateShopDto) {
+    try {
+      await this.ShopService.updateShop(updateShopDto);
       return true;
     } catch (e) {
       console.log(e);

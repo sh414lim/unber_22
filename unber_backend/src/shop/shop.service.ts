@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateShopDto } from './dtos/create-shop.dto';
+import { UpdateShopDto } from './dtos/update-shop.dto';
 import { Shop } from './entities/shop.entity';
 
 @Injectable()
@@ -18,5 +19,9 @@ export class ShopService {
     const newShop = this.shop.create(createShopDto); // 새로운 인스턴스 생성
 
     return this.shop.save(newShop);
+  }
+
+  updateShop({ id, data }: UpdateShopDto) {
+    return this.shop.update(id, { ...data });
   }
 }
