@@ -13,8 +13,9 @@ export class ShopResolver {
 
   @Mutation((returns) => Boolean)
   async createShop(
-    @Args() createShopInputDto: CreateShopDto,
+    @Args('input') createShopInputDto: CreateShopDto,
   ): Promise<boolean> {
+    console.log(createShopInputDto);
     try {
       await this.ShopService.createShop(createShopInputDto);
       return true;

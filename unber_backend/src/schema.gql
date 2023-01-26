@@ -16,5 +16,13 @@ type Query {
 }
 
 type Mutation {
-  createShop(name: String!, isVegan: Boolean!, address: String!, ownersName: String!, categoryName: String!): Boolean!
+  createShop(input: CreateShopDto!): Boolean!
+}
+
+input CreateShopDto {
+  name: String!
+  isVegan: Boolean! = true
+  address: String!
+  ownersName: String!
+  categoryName: String!
 }
