@@ -11,6 +11,18 @@ type Shop {
   categoryName: String!
 }
 
+type User {
+  email: String!
+  password: String!
+  role: UserRole!
+}
+
+enum UserRole {
+  Client
+  Owner
+  Delivery
+}
+
 type CreateAccountOutput {
   error: String
   ok: Boolean!
@@ -25,6 +37,7 @@ type LoginOutPut {
 type Query {
   shop: [Shop!]!
   hi: Boolean!
+  me: User!
 }
 
 type Mutation {
@@ -59,12 +72,6 @@ input CreateAccountInput {
   email: String!
   password: String!
   role: UserRole!
-}
-
-enum UserRole {
-  Client
-  Owner
-  Delivery
 }
 
 input LoginInput {
