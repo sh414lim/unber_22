@@ -20,4 +20,9 @@ export class JwtService {
     // custom
     return jwt.sign({ id: userId }, this.configService.get('PRIVATE_KEY'));
   }
+
+  //암호 해독
+  verify(token: string) {
+    return jwt.verify(token, this.options.privateKey);
+  }
 }
