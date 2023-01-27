@@ -18,7 +18,7 @@ import { UsersModule } from './users/users.module';
 import { CommonModule } from './common/common.module';
 import { User } from './users/entitis/user.entity';
 import { JwtModule } from './jwt/jwt.module';
-import { jwtMiddleware } from './jwt/jwt.middleware';
+import { JwtMiddleware } from './jwt/jwt.middleware';
 
 @Module({
   imports: [
@@ -40,6 +40,7 @@ import { jwtMiddleware } from './jwt/jwt.middleware';
     GraphQLModule.forRoot({
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       driver: ApolloDriver,
+      context: ({ req }) => ({ user: req['user'] }),
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
@@ -63,17 +64,13 @@ import { jwtMiddleware } from './jwt/jwt.middleware';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(jwtMiddleware).forRoutes({
-      //router setting
-      // path: '/graphql',
-      path: '/graphql',
-      method: RequestMethod.ALL,
-    });
-
-    //특정 경로 제외
-    consumer.apply(jwtMiddleware).exclude({
-      path: '/api',
-      method: RequestMethod.ALL,
-    });
+    consumer
+      .apply(JwtMiddleware)
+      .forRoutes({ path: '/graphql', method: RequestMethod.ALL });
   }
+  //특정 경로 제외
+  // consumer.apply(jwtMiddleware).exclude({
+  //   path: '/api',
+  //   method: RequestMethod.ALL,
+  // });
 }
