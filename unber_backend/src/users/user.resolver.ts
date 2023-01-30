@@ -7,6 +7,9 @@ import {
   CreateAccountOutput,
 } from './dtos/create-account.dto';
 import { LoginInput, LoginOutPut } from './dtos/login.dto';
+import { UseGuards } from '@nestjs/common';
+import { AuthGuard } from 'src/auth/auth.guard';
+import { AuthUser } from 'src/auth/auth-user.decorator';
 
 @Resolver((of) => User)
 export class UserResolver {
@@ -46,13 +49,20 @@ export class UserResolver {
     }
   }
 
+  // @Query((returns) => User)
+  // me(@Context() context) {
+  //   console.log(context.user);
+  //   if (!context.user) {
+  //     return;
+  //   } else {
+  //     return context.user;
+  //   }
+  // }
+
   @Query((returns) => User)
-  me(@Context() context) {
-    console.log(context.user);
-    if (!context.user) {
-      return;
-    } else {
-      return context.user;
-    }
+  @UseGuards(AuthGuard)
+  me(@AuthUser() authUser: User) {
+    console.log(authUser);
+    return authUser;
   }
 }
