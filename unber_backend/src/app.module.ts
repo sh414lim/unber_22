@@ -20,6 +20,7 @@ import { User } from './users/entitis/user.entity';
 import { JwtModule } from './jwt/jwt.module';
 import { JwtMiddleware } from './jwt/jwt.middleware';
 import { AuthModule } from './auth/auth.module';
+import { Verification } from './users/entitis/verification.entity';
 
 @Module({
   imports: [
@@ -52,7 +53,7 @@ import { AuthModule } from './auth/auth.module';
       database: process.env.DB_NAME,
       synchronize: true, // 현재상태로 마이그레이션
       logging: true,
-      entities: [User],
+      entities: [User, Verification],
     }),
     UsersModule,
     // CommonModule,
