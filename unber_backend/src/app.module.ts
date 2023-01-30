@@ -14,13 +14,13 @@ import { join } from 'path';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { Shop } from './shop/entities/shop.entity';
-import { UsersModule } from './users/users.module';
 import { CommonModule } from './common/common.module';
 import { User } from './users/entitis/user.entity';
 import { JwtModule } from './jwt/jwt.module';
 import { JwtMiddleware } from './jwt/jwt.middleware';
 import { AuthModule } from './auth/auth.module';
 import { Verification } from './users/entitis/verification.entity';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
