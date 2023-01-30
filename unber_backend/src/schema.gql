@@ -48,6 +48,11 @@ type UserProfileOutput {
   user: User
 }
 
+type EditProfileOutput {
+  error: String
+  ok: Boolean!
+}
+
 type Query {
   shop: [Shop!]!
   hi: Boolean!
@@ -60,6 +65,7 @@ type Mutation {
   updatesShop(input: UpdateShopDto!): Boolean!
   createAccount(input: CreateAccountInput!): CreateAccountOutput!
   login(input: LoginInput!): LoginOutPut!
+  editProfile(input: EditProfileInput!): EditProfileOutput!
 }
 
 input CreateShopDto {
@@ -92,4 +98,9 @@ input CreateAccountInput {
 input LoginInput {
   email: String!
   password: String!
+}
+
+input EditProfileInput {
+  email: String
+  password: String
 }
