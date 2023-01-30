@@ -12,6 +12,11 @@ import { AuthGuard } from 'src/auth/auth.guard';
 import { AuthUser } from 'src/auth/auth-user.decorator';
 import { UserProfileInput, UserProfileOutput } from './dtos/user-profile.dto';
 import { EditProfileInput, EditProfileOutput } from './dtos/edit-profile.dto';
+import { MutationOutput } from 'src/common/dtos/output.dto';
+import {
+  VerifyEmailIutput,
+  VerifyEmailOutput,
+} from './entitis/verify-email.dto';
 
 @Resolver((of) => User)
 export class UserResolver {
@@ -109,6 +114,24 @@ export class UserResolver {
       return {
         ok: false,
         error: 'cant find prifile',
+      };
+    }
+  }
+
+  @Mutation((returns) => VerifyEmailOutput)
+  async verifyEmail(
+    @Args('input') { code }: VerifyEmailIutput,
+  ): Promise<VerifyEmailOutput> {
+    try {
+      await this.userService.verifyEmail(code);
+      return {
+        ok: true,
+      };
+    } catch (error) {
+      console.log(error);
+      return {
+        ok: false,
+        error,
       };
     }
   }
