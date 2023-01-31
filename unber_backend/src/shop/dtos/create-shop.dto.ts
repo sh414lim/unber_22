@@ -7,6 +7,7 @@ import {
   PickType,
 } from '@nestjs/graphql';
 import { IsString, IsBoolean, Length } from 'class-validator';
+import { CoreOutput } from 'src/common/dtos/output.dto';
 import { CoreEntity } from 'src/common/entities/core.entity';
 import { Shop } from '../entities/shop.entity';
 
@@ -21,4 +22,4 @@ export class CreateSHOPInputType extends PickType(Shop, [
 }
 
 @ObjectType()
-export class CreateShopOutPut extends CoreEntity {}
+export class CreateShopOutPut extends CoreOutput {}

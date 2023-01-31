@@ -20,9 +20,14 @@ export class ShopService {
       const newShop = this.shop.create(createShopInput); // 새로운 인스턴스 생성
       newShop.owner = owner;
       await this.shop.save(newShop);
-      return;
+      return {
+        ok: true,
+      };
     } catch (error) {
-      return error;
+      return {
+        ok: false,
+        error,
+      };
     }
   }
 }
