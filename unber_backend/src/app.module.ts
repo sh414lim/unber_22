@@ -22,6 +22,7 @@ import { AuthModule } from './auth/auth.module';
 import { Verification } from './users/entitis/verification.entity';
 import { UsersModule } from './users/users.module';
 import { MailModule } from './mail/mail.module';
+import { Category } from './shop/entities/category.entity';
 
 @Module({
   imports: [
@@ -57,9 +58,10 @@ import { MailModule } from './mail/mail.module';
       database: process.env.DB_NAME,
       synchronize: true, // 현재상태로 마이그레이션
       logging: true,
-      entities: [User, Verification],
+      entities: [User, Verification, Shop, Category],
     }),
     UsersModule,
+    ShopModule,
     // CommonModule,
     JwtModule.forRoot({
       privateKey: process.env.PRIVATE_KEY,

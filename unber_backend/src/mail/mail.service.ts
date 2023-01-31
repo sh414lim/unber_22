@@ -8,7 +8,7 @@ import * as FormData from 'form-data';
 @Injectable()
 export class MailService {
   constructor(@Inject(CONFIG_OPTIONS) private readonly options: MailOptions) {
-    this.sendEmail('testing', 'test');
+    // this.sendEmail('testing', 'test');
   }
 
   private async sendEmail(subject: string, content: string) {

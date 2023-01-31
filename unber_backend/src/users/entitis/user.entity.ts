@@ -6,10 +6,11 @@ import {
 } from '@nestjs/graphql';
 import { object } from 'joi';
 import { CoreEntity } from 'src/common/entities/core.entity';
-import { BeforeInsert, BeforeUpdate, Column, Entity } from 'typeorm';
+import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { InternalServerErrorException } from '@nestjs/common';
 import { IsEnum, IsString } from 'class-validator';
+import { Shop } from 'src/shop/entities/shop.entity';
 
 enum UserRole {
   Client,
@@ -19,7 +20,7 @@ enum UserRole {
 
 registerEnumType(UserRole, { name: 'UserRole' });
 
-@InputType({ isAbstract: true })
+@InputType('UserInputType', { isAbstract: true })
 @ObjectType()
 @Entity()
 export class User extends CoreEntity {
@@ -40,6 +41,10 @@ export class User extends CoreEntity {
   @Column({ default: false })
   @Field((type) => Boolean)
   verified: boolean;
+
+  @Field((type) => [Shop])
+  @OneToMany((type) => Shop, (shop) => shop.owner)
+  shops: Shop[];
 
   @BeforeInsert() // db 에 저장전 로직
   @BeforeUpdate()

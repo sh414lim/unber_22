@@ -2,15 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Shop {
-  id: Float!
-  name: String!
-  isVegan: Boolean!
-  address: String!
-  ownersName: String!
-  categoryName: String!
-}
-
 type User {
   id: Float!
   createdAt: DateTime!
@@ -19,6 +10,7 @@ type User {
   password: String!
   role: UserRole!
   verified: Boolean!
+  shops: [Shop!]!
 }
 
 """
@@ -30,6 +22,26 @@ enum UserRole {
   Client
   Owner
   Delivery
+}
+
+type Category {
+  id: Float!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  name: String!
+  address: String!
+  coverImage: String!
+  shops: [Shop!]!
+}
+
+type Shop {
+  id: Float!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  name: String!
+  coverImage: String!
+  category: Category
+  owner: User
 }
 
 type CreateAccountOutput {
@@ -76,11 +88,34 @@ type Mutation {
 }
 
 input CreateShopDto {
+  createdAt: DateTime!
+  updatedAt: DateTime!
   name: String!
-  isVegan: Boolean! = true
+  coverImage: String!
+  category: CategoryInput
+  owner: UserInputType
+}
+
+input CategoryInput {
+  name: String!
   address: String!
-  ownersName: String!
-  categoryName: String!
+  coverImage: String!
+  shops: [ShopInputType!]!
+}
+
+input ShopInputType {
+  name: String!
+  coverImage: String!
+  category: CategoryInput
+  owner: UserInputType
+}
+
+input UserInputType {
+  email: String!
+  password: String!
+  role: UserRole!
+  verified: Boolean!
+  shops: [ShopInputType!]!
 }
 
 input UpdateShopDto {
@@ -89,11 +124,12 @@ input UpdateShopDto {
 }
 
 input UpdateShopInputType {
+  createdAt: DateTime
+  updatedAt: DateTime
   name: String
-  isVegan: Boolean = true
-  address: String
-  ownersName: String
-  categoryName: String
+  coverImage: String
+  category: CategoryInput
+  owner: UserInputType
 }
 
 input CreateAccountInput {

@@ -1,40 +1,46 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
-import { IsBoolean, IsOptional, IsString, Length } from 'class-validator';
+import {
+  IsArray,
+  IsBoolean,
+  IsOptional,
+  IsString,
+  Length,
+} from 'class-validator';
 import { isAbstractType } from 'graphql';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { CoreEntity } from 'src/common/entities/core.entity';
+import { User } from 'src/users/entitis/user.entity';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Category } from './category.entity';
 
-@InputType({ isAbstract: true }) // Inputtype 이 스키마에 포함되지 않길 원한다
+@InputType('ShopInputType', { isAbstract: true }) // Inputtype 이 스키마에 포함되지 않길 원한다
 @ObjectType() // 자동으로 스키마를 빌드하기 위해 사용하는 GraphQl decorator
 @Entity()
-export class Shop {
-  @PrimaryGeneratedColumn()
-  @Field((type) => Number)
-  id: number;
-
+export class Shop extends CoreEntity {
   @Field((type) => String)
   @Column()
   @IsString()
   @Length(5)
   name: string;
 
-  @Field((type) => Boolean, { defaultValue: true })
-  @Column({ default: true })
-  @IsBoolean()
-  @IsOptional()
-  isVegan: boolean;
-
   @Field((type) => String)
   @Column()
   @IsString()
-  address: string;
+  coverImage: string;
 
-  @Field((type) => String)
-  @Column()
-  @IsString()
-  ownersName: string;
+  @Field((type) => Category, { nullable: true }) // category 를 지울때 shop 은 지우면 안된다
+  @ManyToOne((type) => Category, (cateogry) => cateogry.shops, {
+    nullable: true,
+    onDelete: 'SET NULL',
+  })
+  category: Category;
 
-  @Field((type) => String)
-  @Column()
-  @IsString()
-  categoryName: string;
+  @Field((type) => User, { nullable: true }) // category 를 지울때 shop 은 지우면 안된다
+  @ManyToOne((type) => User, (user) => user.shops, {})
+  owner: User;
 }
