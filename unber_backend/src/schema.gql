@@ -72,64 +72,24 @@ type VerifyEmailOutput {
 }
 
 type Query {
-  shop: [Shop!]!
   hi: Boolean!
   me: User!
   userProfile(userId: Float!): UserProfileOutput!
 }
 
 type Mutation {
-  createShop(input: CreateShopDto!): Boolean!
-  updatesShop(input: UpdateShopDto!): Boolean!
+  createShop(input: CreateSHOPInputType!): Boolean!
   createAccount(input: CreateAccountInput!): CreateAccountOutput!
   login(input: LoginInput!): LoginOutPut!
   editProfile(input: EditProfileInput!): EditProfileOutput!
   verifyEmail(input: VerifyEmailIutput!): VerifyEmailOutput!
 }
 
-input CreateShopDto {
+input CreateSHOPInputType {
   createdAt: DateTime!
   updatedAt: DateTime!
   name: String!
   coverImage: String!
-  category: CategoryInput
-  owner: UserInputType
-}
-
-input CategoryInput {
-  name: String!
-  address: String!
-  coverImage: String!
-  shops: [ShopInputType!]!
-}
-
-input ShopInputType {
-  name: String!
-  coverImage: String!
-  category: CategoryInput
-  owner: UserInputType
-}
-
-input UserInputType {
-  email: String!
-  password: String!
-  role: UserRole!
-  verified: Boolean!
-  shops: [ShopInputType!]!
-}
-
-input UpdateShopDto {
-  id: Float!
-  data: UpdateShopInputType!
-}
-
-input UpdateShopInputType {
-  createdAt: DateTime
-  updatedAt: DateTime
-  name: String
-  coverImage: String
-  category: CategoryInput
-  owner: UserInputType
 }
 
 input CreateAccountInput {

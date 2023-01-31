@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { User } from 'src/users/entitis/user.entity';
 import { Repository } from 'typeorm';
-import { CreateShopDto } from './dtos/create-shop.dto';
-import { UpdateShopDto } from './dtos/update-shop.dto';
+import { CreateSHOPInputType, CreateShopOutPut } from './dtos/create-shop.dto';
 import { Shop } from './entities/shop.entity';
 
 @Injectable()
@@ -11,17 +11,18 @@ export class ShopService {
     @InjectRepository(Shop)
     private readonly shop: Repository<Shop>,
   ) {}
-  getAll(): Promise<Shop[]> {
-    return this.shop.find();
-  }
 
-  createShop(createShopDto: CreateShopDto): Promise<Shop> {
-    const newShop = this.shop.create(createShopDto); // 새로운 인스턴스 생성
-
-    return this.shop.save(newShop);
-  }
-
-  updateShop({ id, data }: UpdateShopDto) {
-    return this.shop.update(id, { ...data });
+  async createShop(
+    owner: User,
+    createShopInput: CreateSHOPInputType,
+  ): Promise<CreateShopOutPut> {
+    try {
+      const newShop = this.shop.create(createShopInput); // 새로운 인스턴스 생성
+      newShop.owner = owner;
+      await this.shop.save(newShop);
+      return;
+    } catch (error) {
+      return error;
+    }
   }
 }

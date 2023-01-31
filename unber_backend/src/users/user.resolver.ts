@@ -12,7 +12,7 @@ import { AuthGuard } from 'src/auth/auth.guard';
 import { AuthUser } from 'src/auth/auth-user.decorator';
 import { UserProfileInput, UserProfileOutput } from './dtos/user-profile.dto';
 import { EditProfileInput, EditProfileOutput } from './dtos/edit-profile.dto';
-import { MutationOutput } from 'src/common/dtos/output.dto';
+import { CoreOutput } from 'src/common/dtos/output.dto';
 import {
   VerifyEmailIutput,
   VerifyEmailOutput,
