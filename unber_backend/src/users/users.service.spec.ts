@@ -7,11 +7,11 @@ import { User } from './entitis/user.entity';
 import { Verification } from './entitis/verification.entity';
 import { UsersService } from './users.service';
 
-const mockRepositiory = {
+const mockRepositiory = () => ({
   findOne: jest.fn(),
   save: jest.fn(),
   create: jest.fn(),
-};
+});
 
 const mockJwtService = {
   sign: jest.fn(),
@@ -36,11 +36,11 @@ describe('UserService', () => {
         UsersService,
         {
           provide: getRepositoryToken(User),
-          useValue: mockRepositiory,
+          useValue: mockRepositiory(),
         },
         {
           provide: getRepositoryToken(Verification),
-          useValue: mockRepositiory,
+          useValue: mockRepositiory(),
         },
         {
           provide: JwtService,
@@ -60,20 +60,30 @@ describe('UserService', () => {
     expect(service).toBeDefined;
   });
   describe('createAccount', () => {
+    const createAccountArgs = {
+      email: '',
+      password: '',
+      role: 0,
+    };
     it('should fail if user exists', async () => {
       userRepository.findOne.mockResolvedValue({
         id: 1,
         email: '',
       });
-      const result = await service.createAccount({
-        email: '',
-        password: '',
-        role: 0,
-      });
+      const result = await service.createAccount(createAccountArgs);
       expect(result).toMatchObject({
         ok: false,
         error: 'There is a user with that email already',
       });
+    });
+    it('should create a new user', async () => {
+      userRepository.findOne.mockResolvedValue(undefined);
+      userRepository.create.mockResolvedValue(createAccountArgs);
+      await service.createAccount(createAccountArgs);
+      expect(userRepository.create).toHaveBeenCalledTimes(1); // 이 함수가 한번만 불린다
+      expect(userRepository.create).toHaveBeenCalledWith(createAccountArgs);
+      expect(userRepository.save).toHaveBeenCalledTimes(1); // 이 함수가 한번만 불린다
+      expect(userRepository.save).toHaveBeenCalledWith(createAccountArgs);
     });
   });
 
