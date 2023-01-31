@@ -31,7 +31,12 @@ export class Shop extends CoreEntity {
   @Field((type) => String)
   @Column()
   @IsString()
-  coverImage: string;
+  coverImg: string;
+
+  @Field((type) => String)
+  @Column()
+  @IsString()
+  address: string;
 
   @Field((type) => Category, { nullable: true }) // category 를 지울때 shop 은 지우면 안된다
   @ManyToOne((type) => Category, (cateogry) => cateogry.shops, {

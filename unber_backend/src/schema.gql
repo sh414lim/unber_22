@@ -39,7 +39,8 @@ type Shop {
   createdAt: DateTime!
   updatedAt: DateTime!
   name: String!
-  coverImage: String!
+  coverImg: String!
+  address: String!
   category: Category
   owner: User
 }
@@ -86,10 +87,10 @@ type Mutation {
 }
 
 input CreateSHOPInputType {
-  createdAt: DateTime!
-  updatedAt: DateTime!
   name: String!
-  coverImage: String!
+  coverImg: String!
+  address: String!
+  categoryName: String!
 }
 
 input CreateAccountInput {
