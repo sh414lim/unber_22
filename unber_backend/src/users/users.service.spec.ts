@@ -28,7 +28,8 @@ type MockRepositiory<T = any> = Partial<
 
 describe('UserService', () => {
   let service: UsersService;
-  let userRepository: MockRepositiory<User>; // Parital -> 타입 t의 모든 요소를 optional 하게 만든다 , Record -> 타입 T의 요소 K의 집합으로 타입을 만들어주는 TS
+  let usersRepository: MockRepositiory<User>; // Parital -> 타입 t의 모든 요소를 optional 하게 만든다 , Record -> 타입 T의 요소 K의 집합으로 타입을 만들어주는 TS
+  let verificationsRepository: MockRepositiory<Verification>;
 
   beforeAll(async () => {
     const module = await Test.createTestingModule({
@@ -53,7 +54,8 @@ describe('UserService', () => {
       ],
     }).compile();
     service = module.get<UsersService>(UsersService);
-    userRepository = module.get(getRepositoryToken(User));
+    usersRepository = module.get(getRepositoryToken(User));
+    verificationsRepository = module.get(getRepositoryToken(Verification));
   });
 
   it('be defined', () => {
@@ -66,7 +68,7 @@ describe('UserService', () => {
       role: 0,
     };
     it('should fail if user exists', async () => {
-      userRepository.findOne.mockResolvedValue({
+      usersRepository.findOne.mockResolvedValue({
         id: 1,
         email: '',
       });
@@ -77,13 +79,13 @@ describe('UserService', () => {
       });
     });
     it('should create a new user', async () => {
-      userRepository.findOne.mockResolvedValue(undefined);
-      userRepository.create.mockResolvedValue(createAccountArgs);
+      usersRepository.findOne.mockResolvedValue(undefined);
+      usersRepository.create.mockResolvedValue(createAccountArgs);
       await service.createAccount(createAccountArgs);
-      expect(userRepository.create).toHaveBeenCalledTimes(1); // 이 함수가 한번만 불린다
-      expect(userRepository.create).toHaveBeenCalledWith(createAccountArgs);
-      expect(userRepository.save).toHaveBeenCalledTimes(1); // 이 함수가 한번만 불린다
-      expect(userRepository.save).toHaveBeenCalledWith(createAccountArgs);
+      expect(usersRepository.create).toHaveBeenCalledTimes(1);
+      expect(usersRepository.create).toHaveBeenCalledWith(createAccountArgs);
+      expect(usersRepository.save).toHaveBeenCalledTimes(1);
+      expect(usersRepository.save).toHaveBeenCalledWith(createAccountArgs);
     });
   });
 
